@@ -3,4 +3,3 @@
 .cpcache/
 .lsp/
 .nrepl-port
-src/*.input

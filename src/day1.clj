@@ -6,8 +6,7 @@
   (->> (read-file "src/day1.input")
       (partition-by #(> (count %) 0))
       (filter #(> (count (first %)) 0))
-      (map #(map (fn [n] (Integer/parseInt n)) %))
-      (map #(apply + %))
+      (map #(apply + (map (fn [n] (Integer/parseInt n)) %)))
       (apply max)))
 
 (comment
@@ -17,10 +16,8 @@
   (->> (read-file "src/day1.input")
       (partition-by #(> (count %) 0))
       (filter #(> (count (first %)) 0))
-      (map #(map (fn [n] (Integer/parseInt n)) %))
-      (map #(apply + %))
-      (sort)
-      (reverse)
+      (map #(apply + (map (fn [n] (Integer/parseInt n)) %)))
+      ((comp reverse sort))
       (take 3)
       (apply +)))
 
