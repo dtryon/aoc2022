@@ -22,11 +22,10 @@
          [2 3] true
          [3 2] false))
 
-(defn game [moves]
-  (let [[p1 p2] moves]
-    (cond (= p1 p2) (+ 3 p2)
-          (win p1 p2) (+ 6 p2) 
-          (not (win p1 p2)) p2)))
+(defn game [[p1 p2]]
+  (cond (= p1 p2) (+ 3 p2)
+        (win p1 p2) (+ 6 p2) 
+        (not (win p1 p2)) p2))
 
 (defn first-star []
   (->> (read-file "src/day2.input")
@@ -34,8 +33,8 @@
        (map game)
        (apply +)))
 
-(comment
-  (first-star))
+((first-star)
+  comment)
 
 (defn get-winner [p1]
   (match [p1]
