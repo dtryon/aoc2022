@@ -3,9 +3,16 @@
     [clojure.string :as str]
     [utils :refer [read-file]]))
 
+(defn assoc-all
+  [v kvs]
+  (reduce (fn [acc [k value]] (assoc acc k value)) v kvs))
+
+(defn offsets [row]
+  (take (/ (count row) 4) (iterate (fn [n] (+ 4 n)) 1)))
+
 (defn parse-stacks [s]
   (->> s
-    (map #(mapv (vec %) (take (/ (count %) 4) (iterate (fn [n] (+ 4 n)) 1))))
+    (map #(mapv (vec %) (offsets %)))
     (reverse)
     (apply mapv vector)
     (map rest)
@@ -23,16 +30,15 @@
 
 (defn make-move [stacks move rev]
   (let [[n [s d]] move
-        src (nth stacks (dec s))
-        dest (nth stacks (dec d))
-        [src-items src-done] (split-at n src)
-        dest-done (concat (rev src-items) dest)]
-  (assoc (assoc stacks (dec s) src-done) (dec d) dest-done)))
+        sidx (dec s)
+        didx (dec d)
+        [src-items src-done] (split-at n (nth stacks sidx))
+        dest-done (concat (rev src-items) (nth stacks didx))]
+  (assoc-all stacks [[sidx src-done] [didx dest-done]])))
 
 (defn make-moves [stacks move rev]
   (cond (empty? move) stacks
         :else (recur (make-move stacks (first move) rev) (rest move) rev)))
-
 
 (defn first-star []
   (let [[s m] (->> (read-file "src/day5.input")
@@ -55,4 +61,5 @@
 
 (comment
   (second-star))
+
 
