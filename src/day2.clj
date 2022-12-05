@@ -16,10 +16,10 @@
 (defn win [p1 p2]
   (match [p1 p2]
          [1 2] true
-         [2 1] false
          [1 3] false
-         [3 1] true
+         [2 1] false
          [2 3] true
+         [3 1] true
          [3 2] false))
 
 (defn game [[p1 p2]]
